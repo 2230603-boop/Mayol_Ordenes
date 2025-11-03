@@ -1,0 +1,862 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --light-color: #ecf0f1;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --pending-color: #9b59b6;
+    --proceso-color: #8e44ad;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+    padding: 10px;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.login-container {
+    max-width: 450px;
+    margin: 50px auto;
+    background: whitesmoke;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    color: #000;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    z-index: 1;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 25px;
+    position: relative;
+    z-index: 2;
+}
+
+.login-logo {
+    max-width: 80px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.login-header h2 {
+    color: black;
+    margin: 0;
+    font-size: 1.3rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+.login-form {
+    position: relative;
+    z-index: 2;
+}
+
+.login-form .form-group {
+    margin-bottom: 20px;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #000;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.9);
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.password-group {
+    position: relative;
+}
+
+.password-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-container input {
+    padding-right: 50px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.toggle-password:hover {
+    background: rgba(0,0,0,0.1);
+}
+
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.btn-login:hover {
+    background: #6fadd6;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-size: 14px;
+}
+
+.remember-me input {
+    width: auto;
+    margin: 0;
+}
+
+/* Estilos del sistema principal */
+.header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.user-role {
+    background: var(--secondary-color);
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+
+.user-role.proceso {
+    background: var(--proceso-color);
+}
+
+.connection-status {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #27ae60;
+    animation: pulse 2s infinite;
+}
+
+.status-dot.offline {
+    background-color: #e74c3c;
+    animation: none;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.nav-tabs {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.nav-tab {
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.nav-tab.active {
+    border-bottom: 3px solid var(--secondary-color);
+    font-weight: bold;
+}
+
+.nav-tab.active.proceso {
+    border-bottom: 3px solid var(--proceso-color);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.form-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.form-section {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+
+.form-group {
+    width: 100%;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-item input {
+    width: auto;
+    margin-right: 5px;
+}
+
+.signature-area {
+    border: 1px dashed #ccc;
+    padding: 15px;
+    text-align: center;
+    margin-top: 10px;
+    min-height: 80px;
+    color: #888;
+    font-style: italic;
+}
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-primary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.btn-primary.proceso {
+    background-color: var(--proceso-color);
+}
+
+.btn-primary.proceso:hover {
+    background-color: #7d3c98;
+}
+
+.btn-secondary {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #7f8c8d;
+}
+
+.btn-danger {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.btn-warning {
+    background-color: var(--warning-color);
+    color: white;
+}
+
+.btn-warning:hover {
+    background-color: #e67e22;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.dashboard {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+.dashboard h2 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 1.2rem;
+}
+
+.dashboard h2.proceso {
+    color: var(--proceso-color);
+}
+
+.stats-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.stat-card {
+    background-color: var(--light-color);
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.stat-card.proceso {
+    border-left: 4px solid var(--proceso-color);
+}
+
+.stat-number {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 12px;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.orders-table th, .orders-table td {
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.orders-table th {
+    background-color: var(--primary-color);
+    color: white;
+    position: sticky;
+    top: 0;
+}
+
+.orders-table.proceso th {
+    background-color: var(--proceso-color);
+}
+
+.orders-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+}
+
+.status-pendiente {
+    background-color: var(--pending-color);
+}
+
+.status-proceso {
+    background-color: var(--secondary-color);
+}
+
+.status-completado {
+    background-color: var(--success-color);
+}
+
+.status-cancelado {
+    background-color: var(--accent-color);
+}
+
+.status-baja { background-color: #27ae60; }
+.status-media { background-color: #f39c12; }
+.status-alta { background-color: #e67e22; }
+.status-urgente { background-color: #e74c3c; }
+
+.empty-message {
+    text-align: center;
+    padding: 15px;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+.action-btn {
+    padding: 6px 10px;
+    margin: 2px 0;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 11px;
+    width: 100%;
+}
+
+.btn-edit {
+    background-color: var(--warning-color);
+    color: white;
+}
+
+.btn-complete {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.btn-cancel {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.btn-proceso {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-pendiente {
+    background-color: var(--pending-color);
+    color: white;
+}
+
+.btn-reactivar {
+    background-color: #16a085;
+    color: white;
+}
+
+.notification {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    padding: 15px 20px;
+    background: var(--success-color);
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+    transform: translateY(-150%);
+    transition: transform 0.3s ease;
+}
+
+.notification.show {
+    transform: translateY(0);
+}
+
+.notification.error {
+    background: var(--accent-color);
+}
+
+.notification.info {
+    background: var(--secondary-color);
+}
+
+.notification.proceso {
+    background: var(--proceso-color);
+}
+
+.hidden {
+    display: none;
+}
+
+.notification-item {
+    background: var(--light-color);
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border-left: 4px solid var(--secondary-color);
+    position: relative;
+}
+
+.notification-item.proceso {
+    border-left-color: var(--proceso-color);
+}
+
+.notification-item.urgente {
+    border-left-color: var(--accent-color);
+}
+
+.btn-delete-notification {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.order-details {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 10px 0;
+    border-left: 4px solid var(--secondary-color);
+}
+
+.order-details.proceso {
+    border-left-color: var(--proceso-color);
+}
+
+.order-details h4 {
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.order-details p {
+    margin: 5px 0;
+}
+
+/* Modal de edición */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background: white;
+    margin: 5% auto;
+    padding: 15px;
+    border-radius: 8px;
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h3 {
+    color: var(--primary-color);
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.modal-header.proceso h3 {
+    color: var(--proceso-color);
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #7f8c8d;
+}
+
+.close-modal:hover {
+    color: var(--accent-color);
+}
+
+.timeline {
+    margin: 15px 0;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+}
+
+.timeline-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.timeline-item:last-child {
+    border-bottom: none;
+}
+
+.timeline-time {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.timeline-event {
+    margin-left: 10px;
+}
+
+.comunicacion-jefe {
+    background: #e8f4fd;
+    border-left: 4px solid var(--secondary-color);
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+.comunicacion-jefe.proceso {
+    border-left-color: var(--proceso-color);
+}
+
+/* MEJORA 2: Estilo para mostrar toda la descripción */
+.descripcion-completa {
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+/* Estilos para las pestañas de notificaciones para BENITO */
+.notifications-tabs {
+    display: flex;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.notification-tab {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+}
+
+.notification-tab.active {
+    border-bottom: 3px solid var(--secondary-color);
+    font-weight: bold;
+}
+
+.notification-tab.proceso.active {
+    border-bottom: 3px solid var(--proceso-color);
+}
+
+.notification-content {
+    display: none;
+}
+
+.notification-content.active {
+    display: block;
+}
+
+/* Estilos para las dos tablas en órdenes */
+.orders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.order-section h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid var(--secondary-color);
+}
+
+.order-section h3.proceso {
+    color: var(--proceso-color;
+    border-bottom: 2px solid var(--proceso-color);
+}
+
+/* Media queries para pantallas más grandes */
+@media (min-width: 768px) {
+    body {
+        padding: 20px;
+    }
+    
+    .login-container {
+        margin: 100px auto;
+        padding: 30px;
+    }
+    
+    .login-container h2 {
+        font-size: 1.5rem;
+    }
+    
+    .header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+    }
+    
+    .user-info {
+        justify-content: flex-end;
+    }
+    
+    .nav-tabs {
+        flex-direction: row;
+    }
+    
+    .nav-tab {
+        flex: 1;
+        border-bottom: 3px solid transparent;
+    }
+    
+    .form-row {
+        flex-direction: row;
+    }
+    
+    .form-group {
+        flex: 1;
+    }
+    
+    .checkbox-group {
+        flex-direction: row;
+    }
+    
+    .actions {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+    
+    .stats-container {
+        flex-direction: row;
+    }
+    
+    .stat-card {
+        flex: 1;
+    }
+    
+    .orders-table {
+        display: table;
+        font-size: 14px;
+    }
+    
+    .action-btn {
+        width: auto;
+        margin: 0 2px;
+    }
+    
+    .notification {
+        left: auto;
+        right: 20px;
+        transform: translateX(120%);
+    }
+    
+    .notification.show {
+        transform: translateX(0);
+    }
+    
+    .notifications-tabs {
+        flex-direction: row;
+    }
+    
+    .modal-content {
+        width: 90%;
+        max-width: 900px;
+        margin: 2% auto;
+        padding: 20px;
+    }
+    
+    .modal-header h3 {
+        font-size: 1.5rem;
+    }
+}

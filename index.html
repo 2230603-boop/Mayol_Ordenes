@@ -3,806 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Mayol Sistema De Ordenes</title>
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --success-color: #27ae60;
-            --warning-color: #f39c12;
-            --pending-color: #9b59b6;
-            --proceso-color: #8e44ad;
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-            padding: 10px;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        /* Estilos de autenticación */
-        .login-container {
-            max-width: 400px;
-            margin: 50px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .login-container h2 {
-            text-align: center;
-            margin-bottom: 15px;
-            color: var(--primary-color);
-            font-size: 1.2rem;
-        }
-        
-        .login-form .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .login-form label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-        
-        .login-form input, .login-form select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        .btn-login {
-            width: 100%;
-            padding: 12px;
-            background: var(--secondary-color);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        /* Estilos del sistema principal */
-        .header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 8px 8px 0 0;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .user-role {
-            background: var(--secondary-color);
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 12px;
-        }
-        
-        .user-role.proceso {
-            background: var(--proceso-color);
-        }
-        
-        .connection-status {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 14px;
-        }
-        
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: #27ae60;
-            animation: pulse 2s infinite;
-        }
-        
-        .status-dot.offline {
-            background-color: #e74c3c;
-            animation: none;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        
-        .nav-tabs {
-            display: flex;
-            flex-direction: column;
-            background: white;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            overflow: hidden;
-        }
-        
-        .nav-tab {
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .nav-tab.active {
-            border-bottom: 3px solid var(--secondary-color);
-            font-weight: bold;
-        }
-        
-        .nav-tab.active.proceso {
-            border-bottom: 3px solid var(--proceso-color);
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .form-container {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .form-section {
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .form-row {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 10px;
-            gap: 10px;
-        }
-        
-        .form-group {
-            width: 100%;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-        
-        input, select, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        
-        textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
-        
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-        }
-        
-        .checkbox-item input {
-            width: auto;
-            margin-right: 5px;
-        }
-        
-        .signature-area {
-            border: 1px dashed #ccc;
-            padding: 15px;
-            text-align: center;
-            margin-top: 10px;
-            min-height: 80px;
-            color: #888;
-            font-style: italic;
-        }
-        
-        .btn {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        
-        .btn-primary {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: #2980b9;
-        }
-        
-        .btn-primary.proceso {
-            background-color: var(--proceso-color);
-        }
-        
-        .btn-primary.proceso:hover {
-            background-color: #7d3c98;
-        }
-        
-        .btn-secondary {
-            background-color: #95a5a6;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #7f8c8d;
-        }
-        
-        .btn-danger {
-            background-color: var(--accent-color);
-            color: white;
-        }
-        
-        .btn-danger:hover {
-            background-color: #c0392b;
-        }
-        
-        .btn-warning {
-            background-color: var(--warning-color);
-            color: white;
-        }
-        
-        .btn-warning:hover {
-            background-color: #e67e22;
-        }
-        
-        .actions {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .dashboard {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-        }
-        
-        .dashboard h2 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-            font-size: 1.2rem;
-        }
-        
-        .dashboard h2.proceso {
-            color: var(--proceso-color);
-        }
-        
-        .stats-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .stat-card {
-            background-color: var(--light-color);
-            padding: 15px;
-            border-radius: 6px;
-            text-align: center;
-        }
-        
-        .stat-card.proceso {
-            border-left: 4px solid var(--proceso-color);
-        }
-        
-        .stat-number {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        
-        .orders-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 12px;
-            display: block;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-        
-        .orders-table th, .orders-table td {
-            padding: 8px 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .orders-table th {
-            background-color: var(--primary-color);
-            color: white;
-            position: sticky;
-            top: 0;
-        }
-        
-        .orders-table.proceso th {
-            background-color: var(--proceso-color);
-        }
-        
-        .orders-table tr:hover {
-            background-color: #f9f9f9;
-        }
-        
-        .status-badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: bold;
-            color: white;
-        }
-        
-        .status-pendiente {
-            background-color: var(--pending-color);
-        }
-        
-        .status-proceso {
-            background-color: var(--secondary-color);
-        }
-        
-        .status-completado {
-            background-color: var(--success-color);
-        }
-        
-        .status-cancelado {
-            background-color: var(--accent-color);
-        }
-        
-        .status-baja { background-color: #27ae60; }
-        .status-media { background-color: #f39c12; }
-        .status-alta { background-color: #e67e22; }
-        .status-urgente { background-color: #e74c3c; }
-        
-        .empty-message {
-            text-align: center;
-            padding: 15px;
-            color: #7f8c8d;
-            font-style: italic;
-        }
-        
-        .action-btn {
-            padding: 6px 10px;
-            margin: 2px 0;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 11px;
-            width: 100%;
-        }
-        
-        .btn-edit {
-            background-color: var(--warning-color);
-            color: white;
-        }
-        
-        .btn-complete {
-            background-color: var(--success-color);
-            color: white;
-        }
-        
-        .btn-cancel {
-            background-color: var(--accent-color);
-            color: white;
-        }
-        
-        .btn-proceso {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-        
-        .btn-pendiente {
-            background-color: var(--pending-color);
-            color: white;
-        }
-        
-        .btn-reactivar {
-            background-color: #16a085;
-            color: white;
-        }
-        
-        .notification {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            left: 10px;
-            padding: 15px 20px;
-            background: var(--success-color);
-            color: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            z-index: 1000;
-            transform: translateY(-150%);
-            transition: transform 0.3s ease;
-        }
-        
-        .notification.show {
-            transform: translateY(0);
-        }
-        
-        .notification.error {
-            background: var(--accent-color);
-        }
-        
-        .notification.info {
-            background: var(--secondary-color);
-        }
-        
-        .notification.proceso {
-            background: var(--proceso-color);
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        .notification-item {
-            background: var(--light-color);
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border-left: 4px solid var(--secondary-color);
-            position: relative;
-        }
-        
-        .notification-item.proceso {
-            border-left-color: var(--proceso-color);
-        }
-        
-        .notification-item.urgente {
-            border-left-color: var(--accent-color);
-        }
-        
-        .btn-delete-notification {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            border-radius: 3px;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-        
-        .order-details {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 10px 0;
-            border-left: 4px solid var(--secondary-color);
-        }
-        
-        .order-details.proceso {
-            border-left-color: var(--proceso-color);
-        }
-        
-        .order-details h4 {
-            margin-bottom: 10px;
-            color: var(--primary-color);
-        }
-        
-        .order-details p {
-            margin: 5px 0;
-        }
-
-        /* Modal de edición */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            overflow-y: auto;
-        }
-
-        .modal-content {
-            background: white;
-            margin: 5% auto;
-            padding: 15px;
-            border-radius: 8px;
-            width: 95%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .modal-header h3 {
-            color: var(--primary-color);
-            margin: 0;
-            font-size: 1.2rem;
-        }
-
-        .modal-header.proceso h3 {
-            color: var(--proceso-color);
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #7f8c8d;
-        }
-
-        .close-modal:hover {
-            color: var(--accent-color);
-        }
-
-        .timeline {
-            margin: 15px 0;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 5px;
-        }
-
-        .timeline-item {
-            padding: 8px 0;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .timeline-item:last-child {
-            border-bottom: none;
-        }
-
-        .timeline-time {
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .timeline-event {
-            margin-left: 10px;
-        }
-
-        .comunicacion-jefe {
-            background: #e8f4fd;
-            border-left: 4px solid var(--secondary-color);
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 4px;
-        }
-        
-        .comunicacion-jefe.proceso {
-            border-left-color: var(--proceso-color);
-        }
-        
-        /* MEJORA 2: Estilo para mostrar toda la descripción */
-        .descripcion-completa {
-            white-space: normal;
-            word-wrap: break-word;
-        }
-        
-        /* Estilos para las pestañas de notificaciones para BENITO */
-        .notifications-tabs {
-            display: flex;
-            background: white;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            overflow: hidden;
-        }
-        
-        .notification-tab {
-            flex: 1;
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-        }
-        
-        .notification-tab.active {
-            border-bottom: 3px solid var(--secondary-color);
-            font-weight: bold;
-        }
-        
-        .notification-tab.proceso.active {
-            border-bottom: 3px solid var(--proceso-color);
-        }
-        
-        .notification-content {
-            display: none;
-        }
-        
-        .notification-content.active {
-            display: block;
-        }
-        
-        /* Estilos para las dos tablas en órdenes */
-        .orders-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .order-section h3 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 2px solid var(--secondary-color);
-        }
-        
-        .order-section h3.proceso {
-            color: var(--proceso-color;
-            border-bottom: 2px solid var(--proceso-color);
-        }
-        
-        /* Media queries para pantallas más grandes */
-        @media (min-width: 768px) {
-            body {
-                padding: 20px;
-            }
-            
-            .login-container {
-                margin: 100px auto;
-                padding: 30px;
-            }
-            
-            .login-container h2 {
-                font-size: 1.5rem;
-            }
-            
-            .header {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                padding: 15px 20px;
-            }
-            
-            .user-info {
-                justify-content: flex-end;
-            }
-            
-            .nav-tabs {
-                flex-direction: row;
-            }
-            
-            .nav-tab {
-                flex: 1;
-                border-bottom: 3px solid transparent;
-            }
-            
-            .form-row {
-                flex-direction: row;
-            }
-            
-            .form-group {
-                flex: 1;
-            }
-            
-            .checkbox-group {
-                flex-direction: row;
-            }
-            
-            .actions {
-                flex-direction: row;
-                justify-content: flex-end;
-            }
-            
-            .stats-container {
-                flex-direction: row;
-            }
-            
-            .stat-card {
-                flex: 1;
-            }
-            
-            .orders-table {
-                display: table;
-                font-size: 14px;
-            }
-            
-            .action-btn {
-                width: auto;
-                margin: 0 2px;
-            }
-            
-            .notification {
-                left: auto;
-                right: 20px;
-                transform: translateX(120%);
-            }
-            
-            .notification.show {
-                transform: translateX(0);
-            }
-            
-            .notifications-tabs {
-                flex-direction: row;
-            }
-            
-            .modal-content {
-                width: 90%;
-                max-width: 900px;
-                margin: 2% auto;
-                padding: 20px;
-            }
-            
-            .modal-header h3 {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
 </head>
 <body>
     <!-- Pantalla de Login -->
     <div id="loginScreen" class="login-container">
-        <h2>𝐒𝐢𝐬𝐭𝐞𝐦𝐚 𝐃𝐞 𝐎𝐫𝐝𝐞𝐧𝐞𝐬 𝐏𝐫𝐨𝐝𝐮𝐜𝐜𝐢ó𝐧 𝐲 𝐏𝐫𝐨𝐜𝐞𝐬𝐨</h2>
+        <div class="login-header">
+            <img src="./img/mayol.jpg" alt="Logo Mayol" class="login-logo">
+            <h2>𝐒𝐢𝐬𝐭𝐞𝐦𝐚 𝐃𝐞 𝐎𝐫𝐝𝐞𝐧𝐞𝐬 𝐏𝐫𝐨𝐝𝐮𝐜𝐜𝐢ó𝐧 𝐲 𝐏𝐫𝐨𝐜𝐞𝐬𝐨</h2>
+        </div>
         <form class="login-form" id="loginForm">
             <div class="form-group">
                 <label for="username">Usuario:</label>
                 <input type="text" id="username" required>
             </div>
-            <div class="form-group">
+            <div class="form-group password-group">
                 <label for="password">Contraseña:</label>
-                <input type="password" id="password" required>
+                <div class="password-input-container">
+                    <input type="password" id="password" required>
+                    <button type="button" class="toggle-password" id="togglePassword">
+                        👁️
+                    </button>
+                </div>
             </div>
             <button type="submit" class="btn-login">Iniciar Sesión</button>
+            <div class="remember-me">
+                <input type="checkbox" id="rememberMe">
+                <label for="rememberMe">Recordar mi sesión</label>
+            </div>
         </form>
     </div>
 
@@ -934,7 +166,7 @@
     </div>
 
     <script>
-        //CONFIGURACIÓN DE FIREBASE CON TUS CREDENCIALES
+        // CONFIGURACIÓN DE FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyB1ywwzR49KiEZC16_rhh9pmw0aMfT8Zxo",
             authDomain: "sistema-de-ordenes-de-trabajo.firebaseapp.com",
@@ -965,20 +197,7 @@
             });
         }
 
-        //LIMPIAR TODOS LOS DATOS EXISTENTES 
-        function limpiarBaseDeDatos() {
-            if (confirm('¿Está seguro de que desea LIMPIAR TODOS los datos existentes? Esto no se puede deshacer.')) {
-                db.ref('ordenes').remove();
-                db.ref('notificaciones').remove();
-                db.ref('contadorProduccion').set(1);
-                db.ref('contadorProceso').set(1);
-                contadorProduccion = 1;
-                contadorProceso = 1;
-                mostrarNotificacion('Base de datos limpiada correctamente', 'info');
-            }
-        }
-
-        // Variables globales - INICIAR VACÍAS
+        // Variables globales
         let ordenes = [];
         let notificaciones = [];
         let currentUser = null;
@@ -990,6 +209,9 @@
         const loginScreen = document.getElementById('loginScreen');
         const mainSystem = document.getElementById('mainSystem');
         const loginForm = document.getElementById('loginForm');
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const rememberMe = document.getElementById('rememberMe');
         const logoutBtn = document.getElementById('logoutBtn');
         const currentUserSpan = document.getElementById('currentUser');
         const currentRoleSpan = document.getElementById('currentRole');
@@ -1031,6 +253,83 @@
                 permisos: ['ver_dashboard', 'ver_ordenes', 'ver_notificaciones', 'cambiar_estado']
             }
         };
+
+        // FUNCIÓN PARA VER CONTRASEÑA
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.textContent = type === 'password' ? '👁️' : '🔒';
+        });
+
+        // FUNCIONES DE PERSISTENCIA DE SESIÓN
+        function guardarSesion(usuario, recordar) {
+            if (recordar) {
+                localStorage.setItem('sistemaMayol_usuario', usuario);
+                localStorage.setItem('sistemaMayol_sesion', 'activa');
+            } else {
+                sessionStorage.setItem('sistemaMayol_usuario', usuario);
+                sessionStorage.setItem('sistemaMayol_sesion', 'activa');
+            }
+        }
+
+        function verificarSesionActiva() {
+            const usuarioLocal = localStorage.getItem('sistemaMayol_usuario');
+            const usuarioSession = sessionStorage.getItem('sistemaMayol_usuario');
+            
+            return usuarioLocal || usuarioSession;
+        }
+
+        function obtenerUsuarioGuardado() {
+            return localStorage.getItem('sistemaMayol_usuario') || sessionStorage.getItem('sistemaMayol_usuario');
+        }
+
+        function cerrarSesionPersistente() {
+            localStorage.removeItem('sistemaMayol_usuario');
+            localStorage.removeItem('sistemaMayol_sesion');
+            sessionStorage.removeItem('sistemaMayol_usuario');
+            sessionStorage.removeItem('sistemaMayol_sesion');
+        }
+
+        // FUNCIÓN PARA INICIAR SESIÓN AUTOMÁTICAMENTE SI HAY SESIÓN GUARDADA
+        function iniciarSesionAutomatica() {
+            const usuarioGuardado = obtenerUsuarioGuardado();
+            if (usuarioGuardado && usuarios[usuarioGuardado]) {
+                // Simular inicio de sesión automático
+                currentUser = usuarioGuardado;
+                currentRole = usuarios[usuarioGuardado].role;
+                currentArea = usuarios[usuarioGuardado].area;
+                
+                // Actualizar interfaz
+                document.getElementById('currentUser').textContent = usuarios[usuarioGuardado].nombre;
+                document.getElementById('currentRole').textContent = currentRole === 'jefe' ? 
+                    (currentArea === 'proceso' ? 'Jefe Proceso' : 'Jefe Producción') : 
+                    'Responsable';
+                
+                if (currentArea === 'proceso') {
+                    document.getElementById('currentRole').classList.add('proceso');
+                }
+                
+                cargarContadores();
+                
+                // Configurar interfaz según el rol
+                if (currentRole === 'responsable') {
+                    document.getElementById('tabNuevaOrden').classList.add('hidden');
+                } else {
+                    document.getElementById('tabNuevaOrden').classList.remove('hidden');
+                    cargarFormularioNuevaOrden();
+                }
+                
+                loginScreen.classList.add('hidden');
+                mainSystem.classList.remove('hidden');
+                
+                // Escuchar cambios en tiempo real
+                iniciarListenersFirebase();
+                
+                mostrarNotificacion(`Bienvenido de nuevo ${usuarios[usuarioGuardado].nombre}`, 'info', currentArea);
+                return true;
+            }
+            return false;
+        }
 
         //Función mejorada para verificar credenciales
         function verificarCredenciales(username, password) {
@@ -1246,7 +545,7 @@
                                 ${notif.detalles ? `<div class="order-details ${notif.area === 'proceso' ? 'proceso' : ''}">
                                     <h4>Detalles:</h4>
                                     <p><strong>Máquina:</strong> ${notif.detalles.maquina}</p>
-                                    <p><strong>Descripción:</strong> ${notif.detalles.descripcion}</p>
+                                    <p><strong>Descripcion:</strong> ${notif.detalles.descripcion}</p>
                                     <p><strong>Prioridad:</strong> ${notif.detalles.prioridad}</p>
                                     <p><strong>Fecha Prometida:</strong> ${notif.detalles.fechaPrometida}</p>
                                     <p><strong>Tipo de Mantenimiento:</strong> ${notif.detalles.tipoMantenimiento}</p>
@@ -2332,14 +1631,17 @@
             }
         }
 
-        //CORRECCIÓN 1: Event listener mejorado para el inicio de sesión
+        // MODIFICAR EL EVENT LISTENER DEL LOGIN
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const username = document.getElementById('username').value.trim().toUpperCase();
             const password = document.getElementById('password').value;
+            const recordar = rememberMe.checked;
             
-            //CORRECCIÓN 1: Usar la función mejorada de verificación
             if (verificarCredenciales(username, password)) {
+                // Guardar sesión si el usuario lo desea
+                guardarSesion(username, recordar);
+                
                 currentUser = username;
                 currentRole = usuarios[username].role;
                 currentArea = usuarios[username].area;
@@ -2348,17 +1650,14 @@
                     (currentArea === 'proceso' ? 'Jefe Proceso' : 'Jefe Producción') : 
                     'Responsable';
                 
-                // Aplicar estilos según el área
                 if (currentArea === 'proceso') {
                     currentRoleSpan.classList.add('proceso');
                 } else {
                     currentRoleSpan.classList.remove('proceso');
                 }
                 
-                //CARGAR CONTADORES AL INICIAR SESIÓN
                 cargarContadores();
                 
-                // Configurar interfaz según el rol
                 if (currentRole === 'responsable') {
                     document.getElementById('tabNuevaOrden').classList.add('hidden');
                 } else {
@@ -2369,47 +1668,7 @@
                 loginScreen.classList.add('hidden');
                 mainSystem.classList.remove('hidden');
                 
-                // Escuchar cambios en tiempo real de órdenes
-                db.ref('ordenes').on('value', (snapshot) => {
-                    ordenes = snapshot.val() || [];
-                    actualizarDashboard();
-                    actualizarTablaOrdenes();
-                });
-                
-                // Escuchar cambios en tiempo real de notificaciones con clave
-                db.ref('notificaciones').on('value', (snapshot) => {
-                    const notifsData = snapshot.val();
-                    if (notifsData) {
-                        // Convertir a array con claves
-                        notificaciones = Object.entries(notifsData).map(([key, value]) => {
-                            return { ...value, key: key };
-                        });
-                        
-                        // Ordenar por timestamp
-                        notificaciones.sort((a, b) => b.timestamp - a.timestamp);
-                        
-                        actualizarNotificaciones();
-                        
-                        // Mostrar notificación flotante para nuevas notificaciones del usuario actual
-                        if (notificaciones.length > 0) {
-                            const ultimaNotificacion = notificaciones[0];
-                            if (ultimaNotificacion.destinatario === currentUser && 
-                                ultimaNotificacion.timestamp > Date.now() - 10000) {
-                                mostrarNotificacion(ultimaNotificacion.mensaje, ultimaNotificacion.tipo, ultimaNotificacion.area);
-                            }
-                        }
-                    } else {
-                        notificaciones = [];
-                        actualizarNotificaciones();
-                    }
-                });
-                
-                // Monitorear estado de conexión
-                db.ref('.info/connected').on('value', (snapshot) => {
-                    const isConnected = snapshot.val();
-                    connectionStatus.classList.toggle('offline', !isConnected);
-                    connectionText.textContent = isConnected ? 'Conectado' : 'Desconectado';
-                });
+                iniciarListenersFirebase();
                 
                 mostrarNotificacion(`Bienvenido ${usuarios[username].nombre}`, 'info', currentArea);
             } else {
@@ -2417,7 +1676,9 @@
             }
         });
 
+        // MODIFICAR EL LOGOUT PARA LIMPIAR LA PERSISTENCIA
         logoutBtn.addEventListener('click', function() {
+            cerrarSesionPersistente();
             currentUser = null;
             currentRole = null;
             currentArea = null;
@@ -2429,6 +1690,55 @@
             db.ref('ordenes').off();
             db.ref('notificaciones').off();
             db.ref('.info/connected').off();
+        });
+
+        // FUNCIÓN PARA INICIAR LISTENERS DE FIREBASE (reutilizable)
+        function iniciarListenersFirebase() {
+            // Escuchar cambios en tiempo real de órdenes
+            db.ref('ordenes').on('value', (snapshot) => {
+                ordenes = snapshot.val() || [];
+                actualizarDashboard();
+                actualizarTablaOrdenes();
+            });
+            
+            // Escuchar cambios en tiempo real de notificaciones con clave
+            db.ref('notificaciones').on('value', (snapshot) => {
+                const notifsData = snapshot.val();
+                if (notifsData) {
+                    notificaciones = Object.entries(notifsData).map(([key, value]) => {
+                        return { ...value, key: key };
+                    });
+                    
+                    notificaciones.sort((a, b) => b.timestamp - a.timestamp);
+                    actualizarNotificaciones();
+                    
+                    if (notificaciones.length > 0) {
+                        const ultimaNotificacion = notificaciones[0];
+                        if (ultimaNotificacion.destinatario === currentUser && 
+                            ultimaNotificacion.timestamp > Date.now() - 10000) {
+                            mostrarNotificacion(ultimaNotificacion.mensaje, ultimaNotificacion.tipo, ultimaNotificacion.area);
+                        }
+                    }
+                } else {
+                    notificaciones = [];
+                    actualizarNotificaciones();
+                }
+            });
+            
+            // Monitorear estado de conexión
+            db.ref('.info/connected').on('value', (snapshot) => {
+                const isConnected = snapshot.val();
+                connectionStatus.classList.toggle('offline', !isConnected);
+                connectionText.textContent = isConnected ? 'Conectado' : 'Desconectado';
+            });
+        }
+
+        // VERIFICAR SI HAY SESIÓN AL CARGAR LA PÁGINA
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!iniciarSesionAutomatica()) {
+                // Si no hay sesión activa, mostrar el login normalmente
+                loginScreen.classList.remove('hidden');
+            }
         });
 
         // Event listeners para el modal de edición
